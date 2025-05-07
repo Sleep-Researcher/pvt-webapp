@@ -1,20 +1,40 @@
 const startBtn = document.getElementById("startBtn");
 const testArea = document.getElementById("testArea");
+const formArea = document.getElementById("formArea");
 const message = document.getElementById("message");
 const reactBtn = document.getElementById("reactBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 
+const participantIdInput = document.getElementById("participantId");
+const ageInput = document.getElementById("age");
+const trialCountInput = document.getElementById("trialCount");
+
 let reactionStart = 0;
 let results = [];
 let maxTrials = 5;
-let testDate = new Date(); // テスト開始時刻を保存
+let testDate = new Date();
+let participantId = "";
+let age = "";
 
 // テスト開始
 startBtn.addEventListener("click", () => {
-  startBtn.style.display = "none";
-  testArea.style.display = "block";
-  testDate = new Date(); // テスト日時を記録
+  participantId = participantIdInput.value.trim();
+  age = ageInput.value.trim();
+  maxTrials = parseInt(trialCountInput.value, 10);
+
+  if (!participantId || !age) {
+    alert("被験者IDと年齢を入力してください！");
+    return;
+  }
+
+  // 初期化
   results = [];
+  testDate = new Date();
+
+  // 表示切替
+  formArea.style.display = "none";
+  testArea.style.display = "block";
+
   nextTrial();
 });
 
@@ -32,14 +52,13 @@ function nextTrial() {
   }, waitTime);
 }
 
-// ユーザーの反応処理
+// 反応処理
 reactBtn.addEventListener("click", () => {
   const reactionTime = performance.now() - reactionStart;
   results.push({
     trial: results.length + 1,
     time: Math.round(reactionTime)
   });
-  console.log(`試行${results.length}: ${Math.round(reactionTime)}ms`);
 
   if (results.length >= maxTrials) {
     const avg = average(results.map(r => r.time));
@@ -61,6 +80,9 @@ downloadBtn.addEventListener("click", () => {
   const formattedDate = formatDate(testDate);
   let csvContent = "data:text/csv;charset=utf-8,";
   csvContent += `テスト日時,${formattedDate}\n`;
+  csvContent += `被験者ID,${participantId}\n`;
+  csvContent += `年齢,${age}\n`;
+  csvContent += `試行回数,${maxTrials}\n\n`;
   csvContent += "試行,反応時間(ms)\n";
 
   results.forEach(r => {
@@ -70,7 +92,7 @@ downloadBtn.addEventListener("click", () => {
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", `pvt_results_${formattedDate.replace(/[: ]/g, "_")}.csv`);
+  link.setAttribute("download", `pvt_${participantId}_${formattedDate.replace(/[: ]/g, "_")}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
