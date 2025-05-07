@@ -8,14 +8,33 @@
 </head>
 <body>
   <h1>Psychomotor Vigilance Test</h1>
-  <button id="startBtn">テスト開始</button>
+
+  <!-- 入力フォーム -->
+  <div id="formArea">
+    <label>
+      被験者ID：<input type="text" id="participantId">
+    </label><br><br>
+    <label>
+      年齢：<input type="number" id="age">
+    </label><br><br>
+    <label>
+      試行回数：
+      <select id="trialCount">
+        <option value="5">5回</option>
+        <option value="10">10回</option>
+        <option value="15">15回</option>
+      </select>
+    </label><br><br>
+    <button id="startBtn">テスト開始</button>
+  </div>
+
+  <!-- テスト中の表示 -->
   <div id="testArea" style="display:none;">
     <p id="message">準備中...</p>
     <button id="reactBtn" style="display:none;">ここを押して！</button>
-    <!-- この行をreactBtnの下に追加 -->
-<button id="downloadBtn" style="display:none;">CSVをダウンロード</button>
-
+    <button id="downloadBtn" style="display:none;">CSVをダウンロード</button>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
