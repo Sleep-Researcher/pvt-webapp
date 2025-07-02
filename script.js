@@ -80,13 +80,13 @@ function nextPracticeTrial() {
     return;
   }
 
-  message.textContent = "練習：次に表示されたらすぐ押してね！";
+  message.textContent = "練習：表示されたらすぐに押してください";
   reactBtn.classList.remove("visible");
 
   const waitTime = 2000 + Math.random() * 3000;
 
   setTimeout(() => {
-    message.textContent = "今！押して！";
+    message.textContent = "押す";
     reactionStart = performance.now();
     reactBtn.classList.add("visible");
   }, waitTime);
@@ -99,7 +99,7 @@ function nextTrial() {
     return;
   }
 
-  message.textContent = "次に表示されたらすぐ押してね！";
+  message.textContent = "表示されたらすぐに押してください";
   reactBtn.classList.remove("visible");
 
   const waitTime = 2000 + Math.random() * 3000;
@@ -110,7 +110,7 @@ function nextTrial() {
       return;
     }
 
-    message.textContent = "今！押して！";
+    message.textContent = "押す";
     reactionStart = performance.now();
     reactBtn.classList.add("visible");
   }, waitTime);
