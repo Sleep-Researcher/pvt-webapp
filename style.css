@@ -51,7 +51,10 @@ button {
 #message {
   font-size: 1.3em;
   margin-bottom: 20px;
+  white-space: nowrap;
 }
+
+
 
 #reactBtn {
   width: 200px;
