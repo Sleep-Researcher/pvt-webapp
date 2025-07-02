@@ -57,3 +57,20 @@ button {
   font-size: 1.3em;
   margin-bottom: 20px;
 }
+
+#reactBtn {
+  width: 200px;
+  height: 60px;
+  font-size: 1.2em;
+  margin: 20px auto;
+  border: 2px dashed #ccc; /* 点線の枠 */
+  border-radius: 8px;
+  background-color: #fff;
+  color: black;
+  visibility: hidden; /* ← 初期は透明で非操作 */
+  transition: all 0.3s ease;
+}
+
+#reactBtn.visible {
+  visibility: visible; /* 表示状態 */
+}
