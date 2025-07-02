@@ -1,4 +1,3 @@
-const startBtn = document.getElementById("startBtn");
 const testArea = document.getElementById("testArea");
 const formArea = document.getElementById("formArea");
 const message = document.getElementById("message");
@@ -7,20 +6,25 @@ const downloadBtn = document.getElementById("downloadBtn");
 
 const participantIdInput = document.getElementById("participantId");
 const ageInput = document.getElementById("age");
-const trialCountInput = document.getElementById("trialCount");
+const durationSelect = document.getElementById("testDuration"); // ★追加
+
+const startBtn = document.getElementById("startBtn"); // ★追加
 
 let reactionStart = 0;
 let results = [];
-let maxTrials = 5;
 let testDate = new Date();
 let participantId = "";
 let age = "";
+
+let testDurationMinutes = 1;
+let testEndTime = 0;
+let testTimer = null;
 
 // テスト開始
 startBtn.addEventListener("click", () => {
   participantId = participantIdInput.value.trim();
   age = ageInput.value.trim();
-  maxTrials = parseInt(trialCountInput.value, 10);
+  testDurationMinutes = parseInt(durationSelect.value, 10); // ★変更
 
   if (!participantId || !age) {
     alert("被験者IDと年齢を入力してください！");
@@ -30,22 +34,38 @@ startBtn.addEventListener("click", () => {
   // 初期化
   results = [];
   testDate = new Date();
+  testEndTime = Date.now() + testDurationMinutes * 60 * 1000;
 
   // 表示切替
   formArea.style.display = "none";
   testArea.style.display = "block";
 
   nextTrial();
+
+  // 終了タイマーセット
+  testTimer = setTimeout(() => {
+    endTest();
+  }, testDurationMinutes * 60 * 1000);
 });
 
 // 1試行実行
 function nextTrial() {
+  if (Date.now() >= testEndTime) {
+    endTest();
+    return;
+  }
+
   message.textContent = "次に表示されたらすぐ押してね！";
   reactBtn.style.display = "none";
 
   const waitTime = 2000 + Math.random() * 3000;
 
   setTimeout(() => {
+    if (Date.now() >= testEndTime) {
+      endTest();
+      return;
+    }
+
     message.textContent = "今！押して！";
     reactionStart = performance.now();
     reactBtn.style.display = "inline-block";
@@ -60,19 +80,23 @@ reactBtn.addEventListener("click", () => {
     time: Math.round(reactionTime)
   });
 
-  if (results.length >= maxTrials) {
-    const avg = average(results.map(r => r.time));
-    message.textContent = `テスト終了！平均: ${Math.round(avg)}ms`;
-    reactBtn.style.display = "none";
-    downloadBtn.style.display = "inline-block";
-  } else {
-    nextTrial();
-  }
+  reactBtn.style.display = "none";
+  nextTrial();
 });
 
 // 平均計算
 function average(arr) {
   return arr.reduce((a, b) => a + b, 0) / arr.length;
+}
+
+// テスト終了処理
+function endTest() {
+  clearTimeout(testTimer);
+
+  const avg = average(results.map(r => r.time));
+  message.textContent = `テスト終了！平均: ${Math.round(avg)}ms（試行回数: ${results.length}）`;
+  reactBtn.style.display = "none";
+  downloadBtn.style.display = "inline-block";
 }
 
 // CSVダウンロード処理
@@ -82,7 +106,7 @@ downloadBtn.addEventListener("click", () => {
   csvContent += `テスト日時,${formattedDate}\n`;
   csvContent += `被験者ID,${participantId}\n`;
   csvContent += `年齢,${age}\n`;
-  csvContent += `試行回数,${maxTrials}\n\n`;
+  csvContent += `テスト時間（分）,${testDurationMinutes}\n\n`;
   csvContent += "試行,反応時間(ms)\n";
 
   results.forEach(r => {
