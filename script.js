@@ -87,7 +87,7 @@ function nextPracticeTrial() {
 
   const waitTime = 2000 + Math.random() * 3000;
   setTimeout(() => {
-    message.textContent = "押す";
+    
     reactionStart = performance.now();
     reactBtn.classList.add("visible");
   }, waitTime);
@@ -109,7 +109,7 @@ function nextTrial() {
       endTest();
       return;
     }
-    message.textContent = "押す";
+   
     reactionStart = performance.now();
     reactBtn.classList.add("visible");
   }, waitTime);
