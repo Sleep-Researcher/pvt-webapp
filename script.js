@@ -41,20 +41,18 @@ startBtn.addEventListener("click", () => {
     return;
   }
 
-  // 初期化
   isPractice = false;
   results = [];
   testDate = new Date();
   testEndTime = Date.now() + testDurationMinutes * 60 * 1000;
 
-  // 表示切替
   formArea.style.display = "none";
   testArea.style.display = "block";
   practiceEndMenu.style.display = "none";
+  downloadBtn.style.display = "none";
 
   nextTrial();
 
-  // 終了タイマーセット
   testTimer = setTimeout(() => {
     endTest();
   }, testDurationMinutes * 60 * 1000);
@@ -70,6 +68,7 @@ practiceBtn.addEventListener("click", () => {
   formArea.style.display = "none";
   testArea.style.display = "block";
   practiceEndMenu.style.display = "none";
+  downloadBtn.style.display = "none";
 
   nextPracticeTrial();
 });
@@ -82,14 +81,14 @@ function nextPracticeTrial() {
   }
 
   message.textContent = "練習：次に表示されたらすぐ押してね！";
-  reactBtn.style.display = "none";
+  reactBtn.classList.remove("visible");
 
   const waitTime = 2000 + Math.random() * 3000;
 
   setTimeout(() => {
     message.textContent = "今！押して！";
     reactionStart = performance.now();
-    reactBtn.style.display = "inline-block";
+    reactBtn.classList.add("visible");
   }, waitTime);
 }
 
@@ -101,7 +100,7 @@ function nextTrial() {
   }
 
   message.textContent = "次に表示されたらすぐ押してね！";
-  reactBtn.style.display = "none";
+  reactBtn.classList.remove("visible");
 
   const waitTime = 2000 + Math.random() * 3000;
 
@@ -113,11 +112,11 @@ function nextTrial() {
 
     message.textContent = "今！押して！";
     reactionStart = performance.now();
-    reactBtn.style.display = "inline-block";
+    reactBtn.classList.add("visible");
   }, waitTime);
 }
 
-// ボタン押下処理（共通）
+// ボタン反応処理（共通）
 reactBtn.addEventListener("click", () => {
   const reactionTime = performance.now() - reactionStart;
 
@@ -127,16 +126,14 @@ reactBtn.addEventListener("click", () => {
       trial: practiceCount,
       time: Math.round(reactionTime)
     });
-
-    reactBtn.style.display = "none";
+    reactBtn.classList.remove("visible");
     nextPracticeTrial();
   } else {
     results.push({
       trial: results.length + 1,
       time: Math.round(reactionTime)
     });
-
-    reactBtn.style.display = "none";
+    reactBtn.classList.remove("visible");
     nextTrial();
   }
 });
@@ -144,11 +141,11 @@ reactBtn.addEventListener("click", () => {
 // 練習終了処理
 function endPractice() {
   message.textContent = `練習終了！試行回数: ${practiceCount}`;
-  reactBtn.style.display = "none";
+  reactBtn.classList.remove("visible");
   practiceEndMenu.style.display = "block";
 }
 
-// 練習再実行
+// 練習：もう一度
 practiceRetryBtn.addEventListener("click", () => {
   practiceCount = 0;
   results = [];
@@ -157,7 +154,7 @@ practiceRetryBtn.addEventListener("click", () => {
   nextPracticeTrial();
 });
 
-// 練習終了→ホームに戻る
+// 練習：終了してホームに戻る
 practiceExitBtn.addEventListener("click", () => {
   isPractice = false;
   practiceCount = 0;
@@ -166,13 +163,13 @@ practiceExitBtn.addEventListener("click", () => {
   formArea.style.display = "block";
 });
 
-// 本番テスト終了処理
+// 本番終了処理
 function endTest() {
   clearTimeout(testTimer);
 
   const avg = average(results.map(r => r.time));
   message.textContent = `テスト終了！平均: ${Math.round(avg)}ms（試行回数: ${results.length}）`;
-  reactBtn.style.display = "none";
+  reactBtn.classList.remove("visible");
   downloadBtn.style.display = "inline-block";
 }
 
@@ -181,7 +178,7 @@ function average(arr) {
   return arr.reduce((a, b) => a + b, 0) / arr.length;
 }
 
-// CSVダウンロード処理
+// CSV出力処理
 downloadBtn.addEventListener("click", () => {
   const formattedDate = formatDate(testDate);
   let csvContent = "data:text/csv;charset=utf-8,";
