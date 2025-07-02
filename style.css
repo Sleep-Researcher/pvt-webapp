@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  background-color: #f9f9f9;
+  background-color: #fff;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -10,22 +10,19 @@ h1 {
   margin-top: 40px;
 }
 
-#container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-#formArea,
-#testArea,
-#practiceEndMenu {
-  background: #fff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* 中央に配置するフォーム領域 */
+#formArea {
+  width: 360px;
+  margin: 0 auto; /* ←中央にする */
   text-align: left;
+  padding: 24px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  background-color: #fafafa;
 }
 
+/* ラベルと入力 */
 #formArea label {
   display: block;
   margin-bottom: 16px;
@@ -36,15 +33,26 @@ h1 {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+  font-size: 1em;
 }
 
+/* ボタン共通 */
 button {
   font-size: 1.1em;
   padding: 10px 20px;
-  margin: 8px 4px;
+  margin: 10px 5px;
   cursor: pointer;
 }
 
+/* テスト中の表示 */
+#testArea,
+#practiceEndMenu {
+  width: 360px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+/* メッセージ */
 #message {
   font-size: 1.3em;
   margin-bottom: 20px;
