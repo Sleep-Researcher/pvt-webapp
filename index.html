@@ -12,11 +12,22 @@
   <!-- 入力フォーム -->
   <div id="formArea">
     <label>
-      被験者ID：<input type="text" id="participantId">
+      氏名：<input type="text" id="participantName">
     </label><br><br>
+
+    <label>
+      性別：
+      <select id="gender">
+        <option value="男性">男性</option>
+        <option value="女性">女性</option>
+        <option value="回答しない">回答しない</option>
+      </select>
+    </label><br><br>
+
     <label>
       年齢：<input type="number" id="age">
     </label><br><br>
+
     <label>
       テスト時間（分）：
       <select id="testDuration">
@@ -25,6 +36,7 @@
         <option value="5">5分</option>
       </select>
     </label><br><br>
+
     <button id="startBtn">テスト開始</button>
   </div>
 
@@ -38,4 +50,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
