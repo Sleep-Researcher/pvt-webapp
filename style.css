@@ -63,15 +63,20 @@ button {
   height: 60px;
   font-size: 1.2em;
   margin: 20px auto;
-  border: 2px dashed #ccc;
+  border: 2px dashed #aaa; /* 点線の枠を常に表示 */
   border-radius: 8px;
   background-color: #fff;
   color: black;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  display: block;
+  display: block;           /* ← ここ重要！非表示にしない */
+  visibility: hidden;       /* ← 最初は見えない＆押せないだけ */
+  pointer-events: none;     /* ← 押せないようにしておく */
+  transition: all 0.2s ease;
 }
 
+/* ボタンが表示されるとき */
 #reactBtn.visible {
   visibility: visible;
+  pointer-events: auto;
+  background-color: #e0f7ff;
+  border: 2px solid #007acc;
 }
