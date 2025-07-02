@@ -10,7 +10,6 @@ h1 {
   margin-top: 40px;
 }
 
-/* 中央に配置するフォーム領域 */
 #formArea {
   width: 360px;
   margin: 0 auto;
@@ -22,7 +21,6 @@ h1 {
   background-color: #fafafa;
 }
 
-/* ラベルと入力 */
 #formArea label {
   display: block;
   margin-bottom: 16px;
@@ -36,7 +34,6 @@ h1 {
   font-size: 1em;
 }
 
-/* ボタン共通 */
 button {
   font-size: 1.1em;
   padding: 10px 20px;
@@ -44,7 +41,6 @@ button {
   cursor: pointer;
 }
 
-/* テスト中の表示 */
 #testArea,
 #practiceEndMenu {
   width: 360px;
@@ -52,27 +48,22 @@ button {
   text-align: center;
 }
 
-/* メッセージ */
 #message {
   font-size: 1.3em;
   margin-bottom: 20px;
 }
 
-/* ボタン：reactBtnは最初非表示 → visibleクラスで表示 */
 #reactBtn {
   width: 200px;
   height: 60px;
   font-size: 1.2em;
   margin: 20px auto;
-  border: 2px solid #007acc;
   border-radius: 8px;
-  background-color: #f0f8ff;
-  color: black;
+  background-color: #e0f7ff;
+  border: 2px solid #007acc;
   display: none;
-  transition: all 0.2s ease;
 }
 
 #reactBtn.visible {
-  display: block;
+  display: inline-block;
 }
-
