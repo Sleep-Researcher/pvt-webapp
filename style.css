@@ -43,16 +43,23 @@ button {
 
 #testArea,
 #practiceEndMenu {
-  width: 360px;
+  width: 100%;
+  max-width: 600px;
   margin: 40px auto;
   text-align: center;
 }
+
 
 #message {
   font-size: 1.3em;
   margin-bottom: 20px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 100vw;
 }
+
 
 
 
