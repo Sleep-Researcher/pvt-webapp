@@ -116,36 +116,30 @@ function nextTrial() {
   }, waitTime);
 }
 
-// ボタン反応処理（共通）
+// 押したときの反応
 reactBtn.addEventListener("click", () => {
   const reactionTime = performance.now() - reactionStart;
 
   if (isPractice) {
     practiceCount++;
-    results.push({
-      trial: practiceCount,
-      time: Math.round(reactionTime)
-    });
+    results.push({ trial: practiceCount, time: Math.round(reactionTime) });
     reactBtn.classList.remove("visible");
     nextPracticeTrial();
   } else {
-    results.push({
-      trial: results.length + 1,
-      time: Math.round(reactionTime)
-    });
+    results.push({ trial: results.length + 1, time: Math.round(reactionTime) });
     reactBtn.classList.remove("visible");
     nextTrial();
   }
 });
 
-// 練習終了処理
+// 練習終了
 function endPractice() {
   message.textContent = `練習終了！試行回数: ${practiceCount}`;
   reactBtn.classList.remove("visible");
   practiceEndMenu.style.display = "block";
 }
 
-// 練習：もう一度
+// 練習リトライ
 practiceRetryBtn.addEventListener("click", () => {
   practiceCount = 0;
   results = [];
@@ -154,7 +148,7 @@ practiceRetryBtn.addEventListener("click", () => {
   nextPracticeTrial();
 });
 
-// 練習：終了してホームに戻る
+// 練習終了 → ホームに戻る
 practiceExitBtn.addEventListener("click", () => {
   isPractice = false;
   practiceCount = 0;
@@ -163,7 +157,7 @@ practiceExitBtn.addEventListener("click", () => {
   formArea.style.display = "block";
 });
 
-// 本番終了処理
+// 本番終了
 function endTest() {
   clearTimeout(testTimer);
 
@@ -178,7 +172,7 @@ function average(arr) {
   return arr.reduce((a, b) => a + b, 0) / arr.length;
 }
 
-// CSV出力処理
+// CSV出力
 downloadBtn.addEventListener("click", () => {
   const formattedDate = formatDate(testDate);
   let csvContent = "data:text/csv;charset=utf-8,";
