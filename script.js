@@ -82,7 +82,7 @@ function nextPracticeTrial() {
     return;
   }
 
-  message.textContent = "練習：表示されたらすぐに押してください";
+  message.textContent = "表示されたらすぐに押してください";
   reactBtn.classList.remove("visible");
 
   const waitTime = 2000 + Math.random() * 3000;
@@ -133,7 +133,7 @@ reactBtn.addEventListener("click", () => {
 
 // 練習終了
 function endPractice() {
-  message.textContent = `練習終了。試行回数: ${practiceCount}`;
+  message.textContent = `練習終了`;
   reactBtn.classList.remove("visible");
   practiceEndMenu.style.display = "block";
 }
