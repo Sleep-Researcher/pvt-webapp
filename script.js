@@ -4,12 +4,16 @@ const message = document.getElementById("message");
 const reactBtn = document.getElementById("reactBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 
-const participantNameInput = document.getElementById("participantName"); // ← 氏名
-const genderSelect = document.getElementById("gender"); // ← 性別
+const participantNameInput = document.getElementById("participantName");
+const genderSelect = document.getElementById("gender");
 const ageInput = document.getElementById("age");
 const durationSelect = document.getElementById("testDuration");
 
 const startBtn = document.getElementById("startBtn");
+const practiceBtn = document.getElementById("practiceBtn");
+const practiceEndMenu = document.getElementById("practiceEndMenu");
+const practiceRetryBtn = document.getElementById("practiceRetryBtn");
+const practiceExitBtn = document.getElementById("practiceExitBtn");
 
 let reactionStart = 0;
 let results = [];
@@ -22,7 +26,10 @@ let testDurationMinutes = 1;
 let testEndTime = 0;
 let testTimer = null;
 
-// テスト開始
+let isPractice = false;
+let practiceCount = 0;
+
+// テスト開始（本番）
 startBtn.addEventListener("click", () => {
   participantName = participantNameInput.value.trim();
   gender = genderSelect.value;
@@ -35,6 +42,7 @@ startBtn.addEventListener("click", () => {
   }
 
   // 初期化
+  isPractice = false;
   results = [];
   testDate = new Date();
   testEndTime = Date.now() + testDurationMinutes * 60 * 1000;
@@ -42,6 +50,7 @@ startBtn.addEventListener("click", () => {
   // 表示切替
   formArea.style.display = "none";
   testArea.style.display = "block";
+  practiceEndMenu.style.display = "none";
 
   nextTrial();
 
@@ -51,7 +60,40 @@ startBtn.addEventListener("click", () => {
   }, testDurationMinutes * 60 * 1000);
 });
 
-// 1試行実行
+// 練習開始
+practiceBtn.addEventListener("click", () => {
+  isPractice = true;
+  practiceCount = 0;
+  results = [];
+  testDate = new Date();
+
+  formArea.style.display = "none";
+  testArea.style.display = "block";
+  practiceEndMenu.style.display = "none";
+
+  nextPracticeTrial();
+});
+
+// 練習の1試行
+function nextPracticeTrial() {
+  if (practiceCount >= 3) {
+    endPractice();
+    return;
+  }
+
+  message.textContent = "練習：次に表示されたらすぐ押してね！";
+  reactBtn.style.display = "none";
+
+  const waitTime = 2000 + Math.random() * 3000;
+
+  setTimeout(() => {
+    message.textContent = "今！押して！";
+    reactionStart = performance.now();
+    reactBtn.style.display = "inline-block";
+  }, waitTime);
+}
+
+// 本番の1試行
 function nextTrial() {
   if (Date.now() >= testEndTime) {
     endTest();
@@ -75,24 +117,56 @@ function nextTrial() {
   }, waitTime);
 }
 
-// 反応処理
+// ボタン押下処理（共通）
 reactBtn.addEventListener("click", () => {
   const reactionTime = performance.now() - reactionStart;
-  results.push({
-    trial: results.length + 1,
-    time: Math.round(reactionTime)
-  });
 
-  reactBtn.style.display = "none";
-  nextTrial();
+  if (isPractice) {
+    practiceCount++;
+    results.push({
+      trial: practiceCount,
+      time: Math.round(reactionTime)
+    });
+
+    reactBtn.style.display = "none";
+    nextPracticeTrial();
+  } else {
+    results.push({
+      trial: results.length + 1,
+      time: Math.round(reactionTime)
+    });
+
+    reactBtn.style.display = "none";
+    nextTrial();
+  }
 });
 
-// 平均計算
-function average(arr) {
-  return arr.reduce((a, b) => a + b, 0) / arr.length;
+// 練習終了処理
+function endPractice() {
+  message.textContent = `練習終了！試行回数: ${practiceCount}`;
+  reactBtn.style.display = "none";
+  practiceEndMenu.style.display = "block";
 }
 
-// テスト終了処理
+// 練習再実行
+practiceRetryBtn.addEventListener("click", () => {
+  practiceCount = 0;
+  results = [];
+  practiceEndMenu.style.display = "none";
+  testArea.style.display = "block";
+  nextPracticeTrial();
+});
+
+// 練習終了→ホームに戻る
+practiceExitBtn.addEventListener("click", () => {
+  isPractice = false;
+  practiceCount = 0;
+  testArea.style.display = "none";
+  practiceEndMenu.style.display = "none";
+  formArea.style.display = "block";
+});
+
+// 本番テスト終了処理
 function endTest() {
   clearTimeout(testTimer);
 
@@ -100,6 +174,11 @@ function endTest() {
   message.textContent = `テスト終了！平均: ${Math.round(avg)}ms（試行回数: ${results.length}）`;
   reactBtn.style.display = "none";
   downloadBtn.style.display = "inline-block";
+}
+
+// 平均計算
+function average(arr) {
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
 }
 
 // CSVダウンロード処理
@@ -126,7 +205,7 @@ downloadBtn.addEventListener("click", () => {
   document.body.removeChild(link);
 });
 
-// 日付整形（例：2025-05-07 17:45:22）
+// 日付整形
 function formatDate(date) {
   const pad = n => n.toString().padStart(2, "0");
   const yyyy = date.getFullYear();
