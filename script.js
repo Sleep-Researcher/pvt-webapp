@@ -161,7 +161,7 @@ function endTest() {
   clearTimeout(testTimer);
 
   const avg = average(results.map(r => r.time));
-  message.textContent = `テスト終了！平均: ${Math.round(avg)}ms（試行回数: ${results.length}）`;
+  message.textContent = `テスト終了。平均: ${Math.round(avg)}ms（試行回数: ${results.length}）`;
   reactBtn.classList.remove("visible");
   downloadBtn.style.display = "inline-block";
 }
