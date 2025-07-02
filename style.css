@@ -10,13 +10,7 @@ h1 {
   margin-top: 40px;
 }
 
-#container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* ホームフォーム */
+/* 中央に配置するフォーム領域 */
 #formArea {
   width: 360px;
   margin: 0 auto;
@@ -24,11 +18,11 @@ h1 {
   padding: 24px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  background-color: #fafafa;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  background-color: #fafafa;
 }
 
-/* ラベル */
+/* ラベルと入力 */
 #formArea label {
   display: block;
   margin-bottom: 16px;
@@ -42,7 +36,15 @@ h1 {
   font-size: 1em;
 }
 
-/* テスト表示・練習終了 */
+/* ボタン共通 */
+button {
+  font-size: 1.1em;
+  padding: 10px 20px;
+  margin: 10px 5px;
+  cursor: pointer;
+}
+
+/* テスト中の表示 */
 #testArea,
 #practiceEndMenu {
   width: 360px;
@@ -56,34 +58,21 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* 共通ボタン */
-button {
-  font-size: 1.1em;
-  padding: 10px 20px;
-  margin: 10px 5px;
-  cursor: pointer;
-}
-
-/* 反応ボタン（点線付き・常時表示） */
+/* ボタン：reactBtnは最初非表示 → visibleクラスで表示 */
 #reactBtn {
   width: 200px;
   height: 60px;
   font-size: 1.2em;
   margin: 20px auto;
-  border: 2px dashed #aaa;
+  border: 2px solid #007acc;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: #f0f8ff;
   color: black;
-  opacity: 0.2;
-  pointer-events: none;
+  display: none;
   transition: all 0.2s ease;
 }
 
-/* 表示時に有効化 */
 #reactBtn.visible {
-  opacity: 1;
-  pointer-events: auto;
-  background-color: #e0f7ff;
-  border: 2px solid #007acc;
+  display: block;
 }
 
