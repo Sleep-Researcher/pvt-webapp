@@ -4,16 +4,18 @@ const message = document.getElementById("message");
 const reactBtn = document.getElementById("reactBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 
-const participantIdInput = document.getElementById("participantId");
+const participantNameInput = document.getElementById("participantName"); // ← 氏名
+const genderSelect = document.getElementById("gender"); // ← 性別
 const ageInput = document.getElementById("age");
-const durationSelect = document.getElementById("testDuration"); // ★追加
+const durationSelect = document.getElementById("testDuration");
 
-const startBtn = document.getElementById("startBtn"); // ★追加
+const startBtn = document.getElementById("startBtn");
 
 let reactionStart = 0;
 let results = [];
 let testDate = new Date();
-let participantId = "";
+let participantName = "";
+let gender = "";
 let age = "";
 
 let testDurationMinutes = 1;
@@ -22,12 +24,13 @@ let testTimer = null;
 
 // テスト開始
 startBtn.addEventListener("click", () => {
-  participantId = participantIdInput.value.trim();
+  participantName = participantNameInput.value.trim();
+  gender = genderSelect.value;
   age = ageInput.value.trim();
-  testDurationMinutes = parseInt(durationSelect.value, 10); // ★変更
+  testDurationMinutes = parseInt(durationSelect.value, 10);
 
-  if (!participantId || !age) {
-    alert("被験者IDと年齢を入力してください！");
+  if (!participantName || !age) {
+    alert("氏名と年齢を入力してください！");
     return;
   }
 
@@ -104,7 +107,8 @@ downloadBtn.addEventListener("click", () => {
   const formattedDate = formatDate(testDate);
   let csvContent = "data:text/csv;charset=utf-8,";
   csvContent += `テスト日時,${formattedDate}\n`;
-  csvContent += `被験者ID,${participantId}\n`;
+  csvContent += `氏名,${participantName}\n`;
+  csvContent += `性別,${gender}\n`;
   csvContent += `年齢,${age}\n`;
   csvContent += `テスト時間（分）,${testDurationMinutes}\n\n`;
   csvContent += "試行,反応時間(ms)\n";
@@ -116,7 +120,7 @@ downloadBtn.addEventListener("click", () => {
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", `pvt_${participantId}_${formattedDate.replace(/[: ]/g, "_")}.csv`);
+  link.setAttribute("download", `pvt_${participantName}_${formattedDate.replace(/[: ]/g, "_")}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
