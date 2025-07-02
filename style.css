@@ -3,7 +3,26 @@ body {
   text-align: center;
   margin-top: 50px;
 }
+
 button {
   font-size: 1.2em;
   padding: 10px 20px;
 }
+
+/* ★ 追加部分 ↓ */
+#formArea {
+  display: inline-block;
+  text-align: left;
+}
+
+#formArea label {
+  display: block;
+  margin-bottom: 16px;
+}
+
+#formArea input,
+#formArea select {
+  margin-top: 4px;
+  font-size: 1em;
+}
+/* ★ 追加部分 ↑ */
