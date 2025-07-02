@@ -1,3 +1,4 @@
+// DOM取得
 const testArea = document.getElementById("testArea");
 const formArea = document.getElementById("formArea");
 const message = document.getElementById("message");
@@ -15,6 +16,7 @@ const practiceEndMenu = document.getElementById("practiceEndMenu");
 const practiceRetryBtn = document.getElementById("practiceRetryBtn");
 const practiceExitBtn = document.getElementById("practiceExitBtn");
 
+// 変数定義
 let reactionStart = 0;
 let results = [];
 let testDate = new Date();
@@ -84,7 +86,6 @@ function nextPracticeTrial() {
   reactBtn.classList.remove("visible");
 
   const waitTime = 2000 + Math.random() * 3000;
-
   setTimeout(() => {
     message.textContent = "押す";
     reactionStart = performance.now();
@@ -103,13 +104,11 @@ function nextTrial() {
   reactBtn.classList.remove("visible");
 
   const waitTime = 2000 + Math.random() * 3000;
-
   setTimeout(() => {
     if (Date.now() >= testEndTime) {
       endTest();
       return;
     }
-
     message.textContent = "押す";
     reactionStart = performance.now();
     reactBtn.classList.add("visible");
@@ -207,3 +206,4 @@ function formatDate(date) {
   const ss = pad(date.getSeconds());
   return `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
 }
+
