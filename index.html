@@ -10,8 +10,8 @@
 
   <h1>Psychomotor Vigilance Test</h1>
 
-  <!-- ホーム画面：中央寄せ＋左揃えフォーム -->
-  <div class="center-wrapper">
+  <div id="container">
+    <!-- フォームエリア -->
     <div id="formArea">
       <label>
         氏名：<input type="text" id="participantName" />
@@ -42,26 +42,21 @@
       <button id="startBtn">テスト開始</button>
       <button id="practiceBtn">練習する</button>
     </div>
+
+    <!-- テスト画面 -->
+    <div id="testArea" style="display: none;">
+      <p id="message">準備中...</p>
+      <button id="reactBtn" style="display: none;">ここを押して！</button>
+      <button id="downloadBtn" style="display: none;">CSVをダウンロード</button>
+    </div>
+
+    <!-- 練習終了画面 -->
+    <div id="practiceEndMenu" style="display: none;">
+      <p>練習終了！</p>
+      <button id="practiceRetryBtn">もう一度練習</button>
+      <button id="practiceExitBtn">ホームに戻る</button>
+    </div>
   </div>
-
-  <!-- テスト中の表示 -->
-  <div id="testArea" style="display: none;">
-    <p id="message">準備中...</p>
-    <button id="reactBtn" style="display: none;">ここを押して！</button>
-    <button id="downloadBtn" style="display: none;">CSVをダウンロード</button>
-  </div>
-
-  <!-- 練習終了後の選択 -->
-  <div id="practiceEndMenu" style="display: none;">
-    <p>練習終了！</p>
-    <button id="practiceRetryBtn">もう一度練習</button>
-    <button id="practiceExitBtn">ホームに戻る</button>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
-
 
   <script src="script.js"></script>
 </body>
